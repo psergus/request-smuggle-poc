@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  proxy:
+    image: mminks/haproxy-docker-logging
+    env_file:
+      - .env
+    volumes:
+      - ${PWD}/haproxy:/usr/local/etc/haproxy:ro
+  reverseproxy:
+    image: nginx:1.12 # reverseproxy
+    ports:
+      - 80:80
+    volumes:
+      - ${PWD}/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ${PWD}/certs:/etc/nginx/ssl:ro
+    restart: always
+  dsl:
+    image: mendhak/http-https-echo
+  idm:
+    image: mendhak/http-https-echo
+  service-app:
+    container_name: service-app
+    build:
+      context: ./service-app/
+    volumes:
+      - ./service-app:/onelogin/src
+  api-service:
+    container_name: api-service
+    build:
+      context: ./api-service/
+    volumes:
+      - ./api-service:/onelogin/src
