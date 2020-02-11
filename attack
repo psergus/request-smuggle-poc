@@ -11,8 +11,8 @@ Foo: bar\x0ATransfer-Encoding: chunked
 def queueRequests(target, wordlists):
     # to use Burp's HTTP stack for upstream proxy rules etc, use engine=Engine.BURP
     engine = RequestEngine(endpoint='http://idm.onelogin.in',
-                           concurrentConnections=9,
-                           requestsPerConnection=2,
+                           concurrentConnections=1,
+                           requestsPerConnection=10,
                            resumeSSL=False,
                            timeout=10,
                            pipeline=False,
