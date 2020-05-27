@@ -45,7 +45,7 @@ class AppLogger < Logger
 end
   logger = Logger.new(STDOUT)
 
-def ol_headers(env)
+def log_headers(env)
   env.select do |key, _|
     key.to_s.match(/^HTTP_X_/)
   end.each do |key, value|
@@ -72,7 +72,7 @@ def make_farday_call
 end
 
 get "/" do
-  ol_headers(request.env)
+  log_headers(request.env)
   make_call
   make_api_call
   make_farday_call

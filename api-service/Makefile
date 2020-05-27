@@ -1,8 +1,8 @@
-DOCKER_IMAGE ?= onelogin/api-service
+DOCKER_IMAGE ?= test/api-service
 DOCKER_CONTAINER ?= api-service
 # The command below will extract the branch name and replace slashes for underscores so that
 # it can be used as a valid docker image tag.
-VOLUME ?=-v $(PWD):/onelogin/src
+VOLUME ?=-v $(PWD):/app/src
 
 image:
 	$(HIDE)docker build -f Dockerfile -t $(DOCKER_IMAGE) $(PWD)

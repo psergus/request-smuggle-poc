@@ -1,7 +1,7 @@
 FROM ruby:2.4.1
 
-WORKDIR /onelogin/src
-COPY Gemfile* /onelogin/src/
+WORKDIR /app/src
+COPY Gemfile* /app/src/
 RUN bundle config path /bundle \
     && bundle install
 

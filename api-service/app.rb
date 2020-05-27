@@ -31,7 +31,7 @@ class AppLogger < Logger
 end
   logger = Logger.new(STDOUT)
 
-def ol_headers(env)
+def log_headers(env)
   env.select do |key, _|
     key.to_s.match(/^HTTP_X_/)
   end.each do |key, value|
@@ -40,12 +40,12 @@ def ol_headers(env)
 end
 
 post "/api/v1/test" do
-  ol_headers(request.env)
+  log_headers(request.env)
   "API v1 is here"
 end
 
 post "/api/v2/test" do
-  ol_headers(request.env)
+  log_headers(request.env)
   json :key1 => 'value1', :key2 => 'value2'
 end
 
